@@ -1,0 +1,85 @@
+package helpers
+
+import (
+	"log"
+	"math/rand"
+	"os"
+	"strings"
+	"time"
+)
+
+var r *rand.Rand // Rand for this package
+func init() {
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+}
+
+// CheckError check if err is not nil and print it to log
+func CheckError(err error) {
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+// ContainsOr checks if any of the substrings is contained in the string
+// It is case sensitive
+func ContainsOr(s string, substr []string) bool {
+
+	for _, value := range substr {
+		if strings.Contains(s, value) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// StartsWith checks if the string s starts exactly with the substr
+// It is case sensitive
+func StartsWith(s string, substr string) bool {
+
+	lenString := len(s)
+	lenSubstring := len(substr)
+
+	if lenString < lenSubstring {
+		return false
+	}
+
+	fragment := string(s[0:lenSubstring])
+
+	if strings.Compare(fragment, substr) == 0 {
+		return true
+	}
+
+	return false
+}
+
+// RandomString generate a random string of the given length
+func RandomString(strlen int) string {
+
+	if strlen == 0 {
+		strlen = 32
+	}
+
+	const lower = "abcdefghijklmnopqrstuvwxyz"
+	const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	const numbers = "0123456789"
+	const nonalpha = "#@-.$*()+;~:'/%_?,=&!"
+
+	chars := lower + upper + numbers + nonalpha
+
+	result := make([]byte, strlen)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+
+	return string(result)
+}
+
+// FileExists checks if a given file exits
+func FileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
+}
