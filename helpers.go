@@ -54,7 +54,7 @@ func StartsWith(s string, substr string) bool {
 	return false
 }
 
-// RemoveRedundantWhiteSpaces remove all leading/trailing whitespace as well as all 2 or more whitespace symbols inside a string
+// RemoveRedundantWhiteSpaces remove all leading/trailing whitespace as well as all two or more whitespace symbols inside a string
 func RemoveRedundantWhiteSpaces(s string) string {
 	s = regexp.MustCompile(`^[\s\p{Zs}]+|[\s\p{Zs}]+$`).ReplaceAllString(s, "")
 	return regexp.MustCompile(`[\s\p{Zs}]{2,}`).ReplaceAllString(s, " ")
