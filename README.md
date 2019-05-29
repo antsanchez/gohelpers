@@ -1,2 +1,4 @@
 # GoHelpers
-Library with some helper function what we normaly use in all Go proyects. 
+Library with some helper function what I normaly use in all Go proyects. 
+
+... documentation coming soon

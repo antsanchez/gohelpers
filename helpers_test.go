@@ -52,5 +52,4 @@ func TestStartsWith(t *testing.T) {
 			t.Errorf("Expected %v, got %v on '%s' - '%s'", test.Expected, result, test.Word, test.Search)
 		}
 	}
-
 }
