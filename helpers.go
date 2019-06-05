@@ -54,6 +54,34 @@ func StartsWith(s string, substr string) bool {
 	return false
 }
 
+func CreateSlug(name string) (slug string) {
+
+	type Replacement struct {
+		Original string
+		Replace  string
+	}
+
+	replacements := []Replacement{
+		Replacement{Original: "ü", Replace: "ue"},
+		Replacement{Original: "ö", Replace: "eo"},
+		Replacement{Original: "ä", Replace: "ae"},
+		Replacement{Original: "ß", Replace: "ss"},
+		Replacement{Original: "ñ", Replace: "n"},
+	}
+
+	for _, repl := range replacements {
+		slug = strings.Replace(name, repl.Original, repl.Replace, -1)
+	}
+
+	slug = strings.ToLower(slug)
+
+	var slugRegexp = regexp.MustCompile("[^a-z0-9 ]+")
+	slug = slugRegexp.ReplaceAllString(slug, "")
+	slug = strings.Replace(slug, " ", "-", -1)
+
+	return slug
+}
+
 // RemoveRedundantWhiteSpaces remove all leading/trailing whitespace as well as all two or more whitespace symbols inside a string
 func RemoveRedundantWhiteSpaces(s string) string {
 	s = regexp.MustCompile(`^[\s\p{Zs}]+|[\s\p{Zs}]+$`).ReplaceAllString(s, "")
